@@ -27,6 +27,7 @@ namespace LedPhotoEffectAI
         int counter = 0;
         const int maxSamples = 15; // 15 minta után automatikusan megáll
         private string[] labelNames;
+        private float[] latestVoltages = new float[6];//Detektrojelek
         private Color currentPredictionColor = Color.Gray;//A kijelző alapértelmezettt színe
         public Form1()
         {
@@ -50,6 +51,33 @@ namespace LedPhotoEffectAI
             }
         }
         //Betanítva, vagy még csak tanul
+        private void panelBarGraph_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.Clear(panelBarGraph.BackColor);
+
+            Color[] colors = { Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Violet };
+            string[] labels = { "R", "O", "Y", "G", "B", "U" };
+
+            int barWidth = panelBarGraph.Width / latestVoltages.Length;
+            float maxVoltage = 2.0f; // vagy amit jellemzően maximumként mérsz
+
+            for (int i = 0; i < latestVoltages.Length; i++)
+            {
+                float value = Math.Min(latestVoltages[i], maxVoltage);
+                int barHeight = (int)(value / maxVoltage * panelBarGraph.Height);
+
+                Rectangle rect = new Rectangle(i * barWidth, panelBarGraph.Height - barHeight, barWidth - 4, barHeight);
+                using (Brush brush = new SolidBrush(colors[i]))
+                {
+                    g.FillRectangle(brush, rect);
+                }
+
+                // Opcionális: érték felirat
+                // string text = $"{labels[i]}\n{value:0.00}";
+                // TextRenderer.DrawText(g, text, this.Font, new Point(i * barWidth + 2, panelBarGraph.Height - barHeight - 30), Color.Black);
+            }
+        }
         private void UpdateModelStatus()
         {
             if (panelModelStatus != null)
@@ -144,6 +172,8 @@ namespace LedPhotoEffectAI
             UpdateComPortStatus();
             UpdateModelStatus();
             panelColorCircle.Paint += panelColorCircle_Paint;
+            panelBarGraph.Paint += panelBarGraph_Paint;
+            
         }
         private void buttonOpenCom_Click(object sender, EventArgs e)
         {
@@ -206,6 +236,8 @@ namespace LedPhotoEffectAI
                     {
                         dataGridView1.Rows.Add(vR, vO, vY, vG, vB, vU);
                         counter++;
+                        latestVoltages = new float[] { vR, vO, vY, vG, vB, vU };
+                        panelBarGraph.Invalidate(); // újrarajzolás
 
                         if (predictor != null)
                         {
@@ -218,6 +250,8 @@ namespace LedPhotoEffectAI
                                 Volt_B = vB,
                                 Volt_U = vU
                             };
+
+                            
 
                             var prediction = predictor.Predict(input);
 
@@ -564,8 +598,13 @@ namespace LedPhotoEffectAI
                 }
            
         }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("LED PhotoEffect AI\nVersion 1.0.0\n© Piláth 2025\nhttps://github.com/pkarcsi55/AI-Assisted-Evaluation-of-Detector-Outputs", "About");
+        }
     }
-        public class LightSensorData
+    public class LightSensorData
     {
         [LoadColumn(0)] public float Volt_R;
         [LoadColumn(1)] public float Volt_O;

@@ -42,10 +42,12 @@
             this.loadFromFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.panelColorCircle = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.panelColorCircle = new System.Windows.Forms.Panel();
+            this.panelBarGraph = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -55,7 +57,7 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 157);
+            this.dataGridView1.Location = new System.Drawing.Point(15, 304);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(644, 399);
             this.dataGridView1.TabIndex = 0;
@@ -177,7 +179,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(809, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(676, 28);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -186,7 +188,8 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadFromFileToolStripMenuItem,
             this.saveAsToolStripMenuItem,
-            this.exitToolStripMenuItem});
+            this.exitToolStripMenuItem,
+            this.aboutToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
@@ -212,6 +215,13 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(178, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(178, 26);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
@@ -240,26 +250,36 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tanulás";
             // 
-            // panelColorCircle
-            // 
-            this.panelColorCircle.Location = new System.Drawing.Point(337, 94);
-            this.panelColorCircle.Name = "panelColorCircle";
-            this.panelColorCircle.Size = new System.Drawing.Size(60, 60);
-            this.panelColorCircle.TabIndex = 17;
-            this.panelColorCircle.Paint += new System.Windows.Forms.PaintEventHandler(this.panelColorCircle_Paint);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(86, -3);
+            this.label2.Location = new System.Drawing.Point(86, -1);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(48, 17);
             this.label2.TabIndex = 12;
             this.label2.Text = "Colors";
             // 
+            // panelColorCircle
+            // 
+            this.panelColorCircle.Location = new System.Drawing.Point(256, 95);
+            this.panelColorCircle.Name = "panelColorCircle";
+            this.panelColorCircle.Size = new System.Drawing.Size(60, 60);
+            this.panelColorCircle.TabIndex = 17;
+            this.panelColorCircle.Paint += new System.Windows.Forms.PaintEventHandler(this.panelColorCircle_Paint);
+            // 
+            // panelBarGraph
+            // 
+            this.panelBarGraph.BackColor = System.Drawing.SystemColors.Control;
+            this.panelBarGraph.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelBarGraph.Location = new System.Drawing.Point(58, 160);
+            this.panelBarGraph.Name = "panelBarGraph";
+            this.panelBarGraph.Size = new System.Drawing.Size(601, 138);
+            this.panelBarGraph.TabIndex = 18;
+            // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(809, 601);
+            this.ClientSize = new System.Drawing.Size(676, 742);
+            this.Controls.Add(this.panelBarGraph);
             this.Controls.Add(this.panelColorCircle);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -302,5 +322,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Panel panelColorCircle;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Panel panelBarGraph;
     }
 }
