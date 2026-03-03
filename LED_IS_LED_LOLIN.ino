@@ -1,57 +1,105 @@
-
+//Version 20260204 WEMOS LOLIN 32 LITE
 #include "BluetoothSerial.h"
+
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
-#error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
-#endif  
+  #error Bluetooth is not enabled! Please enable it in menuconfig.
+#endif
+
 BluetoothSerial SerialBT;
-int R=12;int O=14;int Y=27;int G=26;int B=25;int U=33;
-int CR=13;int CG=15;int CB=2;
+
+// --------- Detector channels (ADC inputs) ---------
+enum Channel : uint8_t { CH_R, CH_O, CH_Y, CH_G, CH_B, CH_U, CH_COUNT };
+
+// GPIOs used as ADC inputs (your original mapping)
+const int kAdcPin[CH_COUNT] = {
+  12, // R
+  14, // O
+  27, // Y
+  26, // G
+  25, // B
+  33  // U
+};
+
+// --------- Sampling / output settings ---------
+const float kVref   = 3.3f;      // Approx. ADC reference voltage
+const float kAdcMax = 4095.0f;   // 12-bit ADC max value (0..4095)
+const uint32_t kLoopDelayMs = 1000;
+
+// One measurement frame (6 channels)
+float v[CH_COUNT];
+
+// Blink one detector channel pin to demonstrate the detector "color"
+void blinkPin(int pin, uint16_t onMs = 500, uint16_t offMs = 500) {
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, HIGH);
+  delay(onMs);
+  digitalWrite(pin, LOW);
+  delay(offMs);
+}
+
+// Run a startup demo: blink all detector channels in order
+void detectorDemo() {
+  for (uint8_t i = 0; i < CH_COUNT; i++) {
+    blinkPin(kAdcPin[i]);
+  }
+}
+
+// Read one ADC pin and convert to voltage (approx.)
+float readVoltage(int pin) {
+  const int raw = analogRead(pin);
+  return kVref * (float)raw / kAdcMax;
+}
+
+// Read all channels once per loop
+void sampleAllChannels() {
+  for (uint8_t i = 0; i < CH_COUNT; i++) {
+    v[i] = readVoltage(kAdcPin[i]);
+  }
+}
+
+// Build CSV line: "R,O,Y,G,B,U," with 2 decimals (keeps your trailing comma style)
+String buildCsvLine() {
+  String s;
+  s.reserve(64);
+  for (uint8_t i = 0; i < CH_COUNT; i++) {
+    s += String(v[i], 2);
+    s += ",";
+  }
+  return s;
+}
+
+// Optional BT command handling:
+// - "D" -> re-run detector demo
+void handleBluetoothCommands() {
+  if (!SerialBT.available()) return;
+
+  String cmd = SerialBT.readStringUntil('\n');
+  cmd.trim();
+  if (cmd.length() == 0) return;
+
+  if (cmd.startsWith("D")) {
+    detectorDemo();
+  }
+}
+
 void setup() {
-  setColor(0, 0, 0);
-  SerialBT.begin("Foto_effect");
   Serial.begin(9600);
-  pinMode(CR,OUTPUT);pinMode(CG,OUTPUT);pinMode(CB,OUTPUT);
-  villant(R); villant(O); villant(Y); villant(G); villant(B); villant(U);//Bemutatjuk a detektor színeit
+  SerialBT.begin("Foto_effect");
+
+  // Startup demo: show the 6 detector channels
+  detectorDemo();
+
+  // After demo, switch pins back to input (so ADC reading is clean/consistent)
+  for (uint8_t i = 0; i < CH_COUNT; i++) {
+    pinMode(kAdcPin[i], INPUT);
+  }
 }
+
 void loop() {
-    if (SerialBT.available() > 0){
-      String S=SerialBT.readString();S.trim();
-      if (S.substring(0,1)=="D"){
-        villant(R); villant(O); villant(Y); villant(G); villant(B); villant(U);
-      }
-    }
-
-    String ki="";
-    ki=String(volt(R),2) + "," +String(volt(O),2) + ","+String(volt(Y),2) + ","+String(volt(G),2) + ","+String(volt(B),2) + ","+String(volt(U),2) + ",";
-    Serial.println(ki);
-    SerialBT.println(ki);
-    setColor(0,0,0);
-    if(volt(R)>0.3){ setColor(255,0,0); }
-    if(volt(O)>0.3){ setColor(255,20,0); }
-    if(volt(Y)>0.3){ setColor(255,20,0); }
-    if(volt(G)>0.3){ setColor(0,100, 0); }
-    if(volt(B)>0.3){ setColor(0,0,100); }
-    if(volt(U)>0.3){ setColor(255,0,80); }
-   delay(1000);
-     //analogWrite(CR, 100);
-    
-}
-void villant(int pin){
-  pinMode(pin,OUTPUT);
-  digitalWrite(pin,HIGH);
-  delay(500);
-  digitalWrite(pin,LOW);
-  delay(500);
-}
-
-float volt (int pin){
-  float volt=0;
-  volt=3.3*analogRead(pin)/4096;
-  return volt;
-}
-
-void setColor(int A, int B, int C) {
-  analogWrite(CR, A);
-  analogWrite(CG, B);
-  analogWrite(CB, C);
+  handleBluetoothCommands();
+  sampleAllChannels();
+  const String line = buildCsvLine();
+  Serial.println(line);
+  SerialBT.println(line);
+  delay(kLoopDelayMs);
 }
