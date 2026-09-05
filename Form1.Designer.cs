@@ -1,4 +1,4 @@
-﻿namespace LedPhotoEffectAI
+namespace LedPhotoEffectAI
 {
     partial class Form1
     {
@@ -48,6 +48,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panelColorCircle = new System.Windows.Forms.Panel();
             this.panelBarGraph = new System.Windows.Forms.Panel();
+            this.comboBoxAlgorithm = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -59,6 +61,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(15, 304);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.Size = new System.Drawing.Size(644, 399);
             this.dataGridView1.TabIndex = 0;
             // 
@@ -67,7 +70,7 @@
             this.comboBoxComPort.FormattingEnabled = true;
             this.comboBoxComPort.Location = new System.Drawing.Point(6, 21);
             this.comboBoxComPort.Name = "comboBoxComPort";
-            this.comboBoxComPort.Size = new System.Drawing.Size(100, 24);
+            this.comboBoxComPort.Size = new System.Drawing.Size(100, 21);
             this.comboBoxComPort.TabIndex = 1;
             // 
             // buttonOpenCom
@@ -85,7 +88,7 @@
             this.comboBoxColor.FormattingEnabled = true;
             this.comboBoxColor.Location = new System.Drawing.Point(68, 21);
             this.comboBoxColor.Name = "comboBoxColor";
-            this.comboBoxColor.Size = new System.Drawing.Size(100, 24);
+            this.comboBoxColor.Size = new System.Drawing.Size(100, 21);
             this.comboBoxColor.TabIndex = 3;
             // 
             // buttonSave
@@ -111,9 +114,9 @@
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(12, 103);
+            this.labelStatus.Location = new System.Drawing.Point(12, 720);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(48, 17);
+            this.labelStatus.Size = new System.Drawing.Size(37, 13);
             this.labelStatus.TabIndex = 6;
             this.labelStatus.Text = "Status";
             // 
@@ -134,7 +137,7 @@
             this.labelStatistics.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelStatistics.Location = new System.Drawing.Point(560, 31);
             this.labelStatistics.Name = "labelStatistics";
-            this.labelStatistics.Size = new System.Drawing.Size(45, 19);
+            this.labelStatistics.Size = new System.Drawing.Size(30, 15);
             this.labelStatistics.TabIndex = 8;
             this.labelStatistics.Text = "-------";
             // 
@@ -159,7 +162,7 @@
             this.labelPredictionDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelPredictionDetails.Location = new System.Drawing.Point(431, 95);
             this.labelPredictionDetails.Name = "labelPredictionDetails";
-            this.labelPredictionDetails.Size = new System.Drawing.Size(35, 19);
+            this.labelPredictionDetails.Size = new System.Drawing.Size(24, 15);
             this.labelPredictionDetails.TabIndex = 12;
             this.labelPredictionDetails.Text = "-----";
             // 
@@ -168,7 +171,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 137);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 17);
+            this.label1.Size = new System.Drawing.Size(22, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "-----";
             // 
@@ -179,7 +182,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(676, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(677, 24);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -191,35 +194,35 @@
             this.exitToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
             // loadFromFileToolStripMenuItem
             // 
             this.loadFromFileToolStripMenuItem.Name = "loadFromFileToolStripMenuItem";
-            this.loadFromFileToolStripMenuItem.Size = new System.Drawing.Size(178, 26);
+            this.loadFromFileToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.loadFromFileToolStripMenuItem.Text = "Load from file";
             this.loadFromFileToolStripMenuItem.Click += new System.EventHandler(this.loadFromFileToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(178, 26);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(178, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(178, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -248,14 +251,14 @@
             this.groupBox2.Size = new System.Drawing.Size(177, 61);
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Tanulás";
+            this.groupBox2.Text = "Training";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(86, -1);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(48, 17);
+            this.label2.Size = new System.Drawing.Size(36, 13);
             this.label2.TabIndex = 12;
             this.label2.Text = "Colors";
             // 
@@ -276,9 +279,28 @@
             this.panelBarGraph.Size = new System.Drawing.Size(601, 138);
             this.panelBarGraph.TabIndex = 18;
             // 
+            // comboBoxAlgorithm
+            // 
+            this.comboBoxAlgorithm.FormattingEnabled = true;
+            this.comboBoxAlgorithm.Location = new System.Drawing.Point(77, 117);
+            this.comboBoxAlgorithm.Name = "comboBoxAlgorithm";
+            this.comboBoxAlgorithm.Size = new System.Drawing.Size(135, 21);
+            this.comboBoxAlgorithm.TabIndex = 19;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(80, 97);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(50, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "Algorithm";
+            // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(676, 742);
+            this.ClientSize = new System.Drawing.Size(677, 742);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.comboBoxAlgorithm);
             this.Controls.Add(this.panelBarGraph);
             this.Controls.Add(this.panelColorCircle);
             this.Controls.Add(this.groupBox2);
@@ -324,5 +346,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.Panel panelBarGraph;
+        private System.Windows.Forms.ComboBox comboBoxAlgorithm;
+        private System.Windows.Forms.Label label3;
     }
 }
